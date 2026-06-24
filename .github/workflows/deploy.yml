@@ -42,8 +42,8 @@ jobs:
                   host: ${{ secrets.SSH_HOST }}
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_KEY }}
-                  # We transfer only what's needed for Next.js production
-                  source: '.next,public,package.json,package-lock.json,.env'
+                  # We transfer only what's needed for production
+                  source: 'dist,server.js,package.json,package-lock.json,.env'
                   target: '~/projects/aqora-forms-01'
 
             - name: Execute post-deployment commands
@@ -71,7 +71,7 @@ jobs:
 
                       pm2 delete aqora-forms-01 || true
 
-                      # Next.js starts through npm
-                      pm2 start npm --name aqora-forms-01 -- run dev
+                      # Start the application (serves dist and runs API)
+                      pm2 start npm --name aqora-forms-01 -- run start
 
                       pm2 save
