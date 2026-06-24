@@ -72,6 +72,6 @@ jobs:
                       pm2 delete aqora-forms-01 || true
 
                       # Next.js starts through npm
-                      pm2 start npm --name aqora-forms-01 -- start
+                      pm2 start npm --name aqora-forms-01 -- run dev
 
                       pm2 save
