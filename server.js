@@ -51,7 +51,7 @@ async function callGroq(messages, model = "llama-3.3-70b-versatile", apiKey = GR
 }
 
 const PORT = Number(process.env.PORT || 4000);
-const FRONTEND_ORIGIN = "http://localhost:8080";
+const FRONTEND_ORIGIN = "http://localhost:3002";
 
 // NOTE: Remove seeded admin for security. Use proper authentication with password hashing.
 // For development, users can sign up via the API.
