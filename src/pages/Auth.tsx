@@ -1,9 +1,9 @@
-// // import React, { useState, useEffect } from "react";
-// // import { supabase } from "@/lib/supabase";
-// // import { useNavigate } from "react-router-dom";
-// // import { useAuth } from "@/contexts/AuthContext";
-// // import { ArrowRight, Eye, EyeOff } from "lucide-react";
-// // import { toast } from "sonner";
+// import React, { useState, useEffect } from "react";
+// import { supabase } from "@/lib/supabase";
+// import { useNavigate } from "react-router-dom";
+// import { useAuth } from "@/contexts/AuthContext";
+// import { ArrowRight, Eye, EyeOff } from "lucide-react";
+// import { toast } from "sonner";
 
 // // const Auth = () => {
 // //   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -476,9 +476,10 @@ import { apiClient } from '@/lib/apiClient';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { Eye, EyeOff, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, AlertTriangle, Skull } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ForgotPasswordModal from '@/components/auth/ForgotPasswordModal';
+import { motion, AnimatePresence } from 'motion/react';
 
 const HorizontalScale = ({ className }: { className?: string }) => (
   <div
@@ -665,7 +666,7 @@ const Auth = () => {
             </p>
           </div>
 
-          <HorizontalScaleDark className="mb-10" />
+          {/* <HorizontalScaleDark className="mb-10" /> */}
 
           <div className="space-y-0">
             {[
@@ -727,70 +728,61 @@ const Auth = () => {
         </nav>
 
         <div className="relative z-10 flex-1 flex items-center justify-center px-10 py-14">
-          <div className="w-full max-w-[500px]">
+          <motion.div layout className="w-full max-w-[500px] flex flex-col">
 
-            <div className="mb-10">
-              <p className="text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-black/30 mb-4">
-                {mode === 'login' ? 'Authentication' : 'Registration'}
-              </p>
-              <h2 className="text-[44px] font-semibold tracking-[-0.035em] leading-[1.02] text-foreground">
-                {mode === 'login' ? (
-                  <>Welcome back<span className="text-accent">.</span></>
-                ) : (
-                  <>Get started<span className="text-accent">.</span></>
-                )}
-              </h2>
-              <p className="mt-3 text-[15px] text-black/40 leading-relaxed">
-                {mode === 'login'
-                  ? 'Sign in to continue to your dashboard.'
-                  : 'Create your account — it only takes a moment.'}
-              </p>
+            <div className="mb-10 overflow-hidden min-h-[140px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={mode}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                >
+                  <p className="text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-black/30 mb-4">
+                    {mode === 'login' ? 'Authentication' : 'Registration'}
+                  </p>
+                  <h2 className="text-[44px] font-semibold tracking-[-0.035em] leading-[1.02] text-foreground font-sans">
+                    {mode === 'login' ? (
+                      <>Welcome back<span className="text-accent">.</span></>
+                    ) : (
+                      <>Get started<span className="text-accent">.</span></>
+                    )}
+                  </h2>
+                  <p className="mt-3 text-[15px] text-black/40 leading-relaxed font-sans">
+                    {mode === 'login'
+                      ? 'Sign in to continue to your dashboard.'
+                      : 'Create your account — it only takes a moment.'}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
-            {/* <button
-              type="button"
-              onClick={handleGoogleAuth}
-              disabled={googleLoading || loading}
-              className="w-full flex items-center justify-center gap-3 bg-white border border-black/12 rounded-xl px-5 py-4 text-[15px] font-medium text-foreground hover:bg-black/[0.025] hover:border-black/20 transition-all disabled:opacity-50 shadow-sm mb-6"
-            >
-              {googleLoading ? (
-                <div className="w-5 h-5 border-2 border-black/20 border-t-black/60 rounded-full animate-spin" />
-              ) : (
-                <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-hidden>
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                </svg>
-              )}
-              Continue with Google
-            </button> */}
+            <motion.form layout onSubmit={handleAuth} className="flex flex-col gap-5">
+              <AnimatePresence initial={false}>
+                {mode === 'signup' && (
+                  <motion.div
+                    key="display-name"
+                    initial={{ opacity: 0, height: 0, y: -10 }}
+                    animate={{ opacity: 1, height: 'auto', y: 0 }}
+                    exit={{ opacity: 0, height: 0, y: -10 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <FieldLabel>Display name</FieldLabel>
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required={mode === 'signup'}
+                      placeholder="Your name"
+                      className="w-full bg-white border border-black/12 rounded-xl px-4 py-3.5 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all placeholder:text-black/25 shadow-sm"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            {/* <div className="flex items-center gap-4 mb-7">
-              <div className="flex-1 h-px bg-black/10" />
-              <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-black/30">
-                or continue with email
-              </span>
-              <div className="flex-1 h-px bg-black/10" />
-            </div> */}
-
-            <form onSubmit={handleAuth} className="space-y-5">
-
-              {mode === 'signup' && (
-                <div>
-                  <FieldLabel>Display name</FieldLabel>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required={mode === 'signup'}
-                    placeholder="Your name"
-                    className="w-full bg-white border border-black/12 rounded-xl px-4 py-3.5 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all placeholder:text-black/25 shadow-sm"
-                  />
-                </div>
-              )}
-
-              <div>
+              <motion.div layout>
                 <FieldLabel>Email address</FieldLabel>
                 <input
                   type="email"
@@ -800,20 +792,27 @@ const Auth = () => {
                   placeholder="you@example.com"
                   className="w-full bg-white border border-black/12 rounded-xl px-4 py-3.5 text-[15px] outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all placeholder:text-black/25 shadow-sm"
                 />
-              </div>
+              </motion.div>
 
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
+              <motion.div layout>
+                <div className="flex items-center justify-between mb-1.5 h-4">
                   <FieldLabel>Password</FieldLabel>
-                  {mode === 'login' && (
-                    <button
-                      type="button"
-                      onClick={() => setIsForgotModalOpen(true)}
-                      className="text-[11px] font-mono uppercase tracking-wider text-black/35 hover:text-accent transition-colors underline underline-offset-2"
-                    >
-                      Forgot password?
-                    </button>
-                  )}
+                  <AnimatePresence>
+                    {mode === 'login' && (
+                      <motion.button
+                        key="forgot-password-btn"
+                        initial={{ opacity: 0, x: 5 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 5 }}
+                        transition={{ duration: 0.15 }}
+                        type="button"
+                        onClick={() => setIsForgotModalOpen(true)}
+                        className="text-[11px] font-mono uppercase tracking-wider text-black/35 hover:text-accent transition-colors underline underline-offset-2"
+                      >
+                        Forgot password?
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
                 <div className="relative">
                   <input
@@ -832,49 +831,78 @@ const Auth = () => {
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                {mode === 'signup' && (
-                  <p className="mt-2 text-[11px] font-mono text-black/30 uppercase tracking-wider">
-                    Minimum 6 characters
-                  </p>
-                )}
-              </div>
+                <AnimatePresence>
+                  {mode === 'signup' && (
+                    <motion.p
+                      key="pwd-requirement"
+                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                      animate={{ opacity: 1, height: 'auto', marginTop: 8 }}
+                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-[11px] font-mono text-black/30 uppercase tracking-wider overflow-hidden"
+                    >
+                      Minimum 6 characters
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
-              <div className="pt-2">
+              <motion.div layout className="pt-2">
                 <button
                   type="submit"
                   disabled={loading || googleLoading}
-                  className="w-full bg-foreground text-background rounded-xl px-5 py-4 text-[15px] font-medium hover:bg-accent transition-colors flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                  className="w-full bg-foreground text-background rounded-xl px-5 py-4 text-[15px] font-medium hover:bg-accent transition-colors flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm relative overflow-hidden h-[54px]"
                 >
                   {loading ? (
                     <div className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full animate-spin" />
                   ) : (
-                    <>
-                      <span>{mode === 'login' ? 'Sign in' : 'Create account'}</span>
-                      <ArrowRight size={15} />
-                    </>
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={mode}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -12 }}
+                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                        className="flex items-center justify-center gap-2.5 w-full h-full"
+                      >
+                        <span>{mode === 'login' ? 'Sign in' : 'Create account'}</span>
+                        <ArrowRight size={15} />
+                      </motion.div>
+                    </AnimatePresence>
                   )}
                 </button>
-              </div>
-            </form>
+              </motion.div>
+            </motion.form>
 
-            <div className="my-8 h-px bg-black/8" />
+            <motion.div layout className="my-8 h-px bg-black/8" />
 
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-[13px] text-black/40">
-                {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
-              </span>
-              <button
-                onClick={() => {
-                  setMode(mode === 'login' ? 'signup' : 'login');
-                  setUsername('');
-                  setEmail('');
-                  setPassword('');
-                }}
-                className="text-[13px] font-semibold text-foreground hover:text-accent transition-colors underline underline-offset-2"
-              >
-                {mode === 'login' ? 'Sign up' : 'Sign in'}
-              </button>
-            </div>
+            <motion.div layout className="flex items-center justify-center gap-2 h-5">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={mode}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex items-center justify-center gap-2"
+                >
+                  <span className="text-[13px] text-black/40">
+                    {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setMode(mode === 'login' ? 'signup' : 'login');
+                      setUsername('');
+                      setEmail('');
+                      setPassword('');
+                    }}
+                    className="text-[13px] font-semibold text-foreground hover:text-accent transition-colors underline underline-offset-2"
+                  >
+                    {mode === 'login' ? 'Sign up' : 'Sign in'}
+                  </button>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
 
             <p className="mt-5 text-center text-[11px] text-black/25 leading-relaxed">
               By continuing you agree to our{' '}
@@ -887,19 +915,11 @@ const Auth = () => {
               </Link>
               .
             </p>
-          </div>
+          </motion.div>
         </div>
 
         <div className="relative z-10">
           <HorizontalScale />
-          <div className="px-10 py-4 flex items-center justify-between border-t border-black/10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-black/25">
-              Secure · Encrypted · Private
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-black/25">
-              Aqora Systems © 2026
-            </span>
-          </div>
         </div>
       </div>
 
